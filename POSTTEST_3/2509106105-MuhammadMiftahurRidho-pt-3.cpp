@@ -44,7 +44,7 @@ void swapData(Hewan *a, Hewan *b) {
     *b = temp;
 }
 
-// ================= SORT ID (UNTUK FIBONACCI) =================
+// ================= SORT ID =================
 void sortByID(Hewan *arr) {
     for (int i = 0; i < jumlah - 1; i++) {
         for (int j = 0; j < jumlah - i - 1; j++) {
@@ -55,26 +55,51 @@ void sortByID(Hewan *arr) {
     }
 }
 
-// ================= DATA HEWAN =================
+// ================= MENU =================
+void menu() {
+    cout << "\n====================================\n";
+    cout << "     MENU UTAMA PAWCARE PETSHOP\n";
+    cout << "====================================\n";
+    cout << "1.  Tampilkan Data Hewan\n";
+    cout << "2.  Tambah Data Hewan\n";
+    cout << "3.  Cari Nama Hewan\n";
+    cout << "4.  Cari ID Hewan\n";
+    cout << "5.  Urutkan Nama\n";
+    cout << "6.  Urutkan Harga\n";
+    cout << "------------------------------------\n";
+    cout << "7.  Tambah ke Antrian\n";
+    cout << "8.  Panggil Pasien\n";
+    cout << "9.  Tampilkan Antrian\n";
+    cout << "10. Tampilkan Riwayat\n";
+    cout << "11. Hapus Riwayat Terakhir\n";
+    cout << "12. Lihat Data Terdepan\n";
+    cout << "13. Keluar\n";
+    cout << "====================================\n";
+    cout << "Pilih menu: ";
+}
+
+// ================= DATA =================
 void tampilData(Hewan *arr) {
     if (jumlah == 0) {
-        cout << "\nData kosong!\n";
+        cout << "\n[INFO] Data kosong!\n";
         return;
     }
 
-    cout << "\n=== DATA HEWAN PAWCARE PETSHOP ===\n";
+    cout << "\n========== DATA HEWAN ==========\n";
     for (int i = 0; i < jumlah; i++) {
-        cout << "ID      : " << (arr + i)->id << endl;
-        cout << "Nama    : " << (arr + i)->nama << endl;
-        cout << "Jenis   : " << (arr + i)->jenis << endl;
-        cout << "Umur    : " << (arr + i)->umur << " bulan\n";
-        cout << "Harga   : " << (arr + i)->harga << endl;
-        cout << "-----------------------------\n";
+        cout << "Data ke-" << i+1 << endl;
+        cout << "ID    : " << (arr + i)->id << endl;
+        cout << "Nama  : " << (arr + i)->nama << endl;
+        cout << "Jenis : " << (arr + i)->jenis << endl;
+        cout << "Umur  : " << (arr + i)->umur << " bulan\n";
+        cout << "Harga : Rp " << (arr + i)->harga << endl;
+        cout << "-------------------------------\n";
     }
 }
 
 void tambahData(Hewan *&arr) {
-    cout << "\n=== Tambah Data Hewan ===\n";
+    cout << "\n=== TAMBAH DATA HEWAN ===\n";
+
     cout << "ID Hewan   : ";
     cin >> (arr + jumlah)->id;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -92,33 +117,10 @@ void tambahData(Hewan *&arr) {
     cin >> (arr + jumlah)->harga;
 
     jumlah++;
-    cout << "Data berhasil ditambahkan!\n";
+    cout << "[SUKSES] Data berhasil ditambahkan!\n";
 }
 
-void bubbleSortNama(Hewan *arr) {
-    for (int i = 0; i < jumlah - 1; i++) {
-        for (int j = 0; j < jumlah - i - 1; j++) {
-            if ((arr + j)->nama > (arr + j + 1)->nama) {
-                swapData(arr + j, arr + j + 1);
-            }
-        }
-    }
-    cout << "Data berhasil diurutkan (Nama A-Z)\n";
-}
-
-void selectionSortHarga(Hewan *arr) {
-    for (int i = 0; i < jumlah - 1; i++) {
-        int minIndex = i;
-        for (int j = i + 1; j < jumlah; j++) {
-            if ((arr + j)->harga < (arr + minIndex)->harga) {
-                minIndex = j;
-            }
-        }
-        swapData(arr + i, arr + minIndex);
-    }
-    cout << "Data berhasil diurutkan (Harga Termurah)\n";
-}
-
+// ================= SEARCH =================
 void linearSearchNama(Hewan *arr) {
     string cari;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -128,7 +130,7 @@ void linearSearchNama(Hewan *arr) {
 
     for (int i = 0; i < jumlah; i++) {
         if ((arr + i)->nama == cari) {
-            cout << "\nData ditemukan!\n";
+            cout << "\n[DATA DITEMUKAN]\n";
             cout << "ID    : " << (arr + i)->id << endl;
             cout << "Nama  : " << (arr + i)->nama << endl;
             cout << "Jenis : " << (arr + i)->jenis << endl;
@@ -136,19 +138,17 @@ void linearSearchNama(Hewan *arr) {
             return;
         }
     }
-    cout << "Data tidak ditemukan!\n";
+    cout << "[INFO] Data tidak ditemukan!\n";
 }
 
 void fibonacciSearch(Hewan *arr) {
     sortByID(arr);
-    cout << "Data diurutkan berdasarkan ID terlebih dahulu...\n";
 
     int x;
     cout << "Masukkan ID hewan: ";
     cin >> x;
 
-    int fib2 = 0, fib1 = 1;
-    int fib = fib1 + fib2;
+    int fib2 = 0, fib1 = 1, fib = fib1 + fib2;
 
     while (fib < jumlah) {
         fib2 = fib1;
@@ -171,14 +171,38 @@ void fibonacciSearch(Hewan *arr) {
             fib1 = fib1 - fib2;
             fib2 = fib - fib1;
         } else {
-            cout << "\nData ditemukan!\n";
+            cout << "\n[DATA DITEMUKAN]\n";
             cout << "Nama  : " << (arr + i)->nama << endl;
             cout << "Jenis : " << (arr + i)->jenis << endl;
-            cout << "Harga : " << (arr + i)->harga << endl;
             return;
         }
     }
-    cout << "Data tidak ditemukan!\n";
+    cout << "[INFO] Data tidak ditemukan!\n";
+}
+
+// ================= SORT =================
+void bubbleSortNama(Hewan *arr) {
+    for (int i = 0; i < jumlah - 1; i++) {
+        for (int j = 0; j < jumlah - i - 1; j++) {
+            if ((arr + j)->nama > (arr + j + 1)->nama) {
+                swapData(arr + j, arr + j + 1);
+            }
+        }
+    }
+    cout << "[SUKSES] Data diurutkan berdasarkan nama!\n";
+}
+
+void selectionSortHarga(Hewan *arr) {
+    for (int i = 0; i < jumlah - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < jumlah; j++) {
+            if ((arr + j)->harga < (arr + minIndex)->harga) {
+                minIndex = j;
+            }
+        }
+        swapData(arr + i, arr + minIndex);
+    }
+    cout << "[SUKSES] Data diurutkan berdasarkan harga!\n";
 }
 
 // ================= QUEUE =================
@@ -187,44 +211,41 @@ bool isQueueEmpty() {
 }
 
 void enqueueAntrian(Hewan *arr_hewan, Hewan *q) {
-    int idCari;
-    cout << "\nMasukkan ID hewan: ";
-    cin >> idCari;
+    cout << "\n=== TAMBAH ANTRIAN ===\n";
 
-    Hewan pasienBaru;
-    bool found = false;
+    int idCari;
+    cout << "Masukkan ID hewan: ";
+    cin >> idCari;
 
     for (int i = 0; i < jumlah; i++) {
         if ((arr_hewan + i)->id == idCari) {
-            pasienBaru = *(arr_hewan + i);
-            found = true;
-            break;
+
+            if (rear == MAX_DATA - 1) {
+                cout << "[ERROR] Antrian penuh!\n";
+                return;
+            }
+
+            if (front == -1) front = 0;
+            rear++;
+
+            *(q + rear) = *(arr_hewan + i);
+
+            cout << "[SUKSES] " << (arr_hewan + i)->nama 
+                 << " masuk ke antrian!\n";
+            return;
         }
     }
 
-    if (!found) {
-        cout << "ID tidak ditemukan!\n";
-        return;
-    }
-
-    if (rear == MAX_DATA - 1) {
-        cout << "Antrian penuh!\n";
-        return;
-    }
-
-    if (front == -1) front = 0;
-    rear++;
-    *(q + rear) = pasienBaru;
-
-    cout << "Berhasil masuk antrian!\n";
+    cout << "[ERROR] ID tidak ditemukan!\n";
 }
 
 void tampilAntrian(Hewan *q) {
     if (isQueueEmpty()) {
-        cout << "\nAntrian kosong!\n";
+        cout << "\n[INFO] Antrian kosong!\n";
         return;
     }
 
+    cout << "\n===== DAFTAR ANTRIAN =====\n";
     for (int i = front; i <= rear; i++) {
         cout << (i - front + 1) << ". "
              << (q + i)->nama << " (ID: " << (q + i)->id << ")\n";
@@ -238,49 +259,51 @@ bool isStackEmpty() {
 
 void pushRiwayat(Tindakan *s, Tindakan t) {
     if (top == MAX_DATA - 1) {
-        cout << "Stack penuh!\n";
+        cout << "[ERROR] Stack penuh!\n";
         return;
     }
     top++;
     *(s + top) = t;
+    cout << "[SUKSES] Riwayat disimpan!\n";
 }
 
 void popRiwayat(Tindakan *s) {
     if (isStackEmpty()) {
-        cout << "Tidak ada riwayat!\n";
+        cout << "[INFO] Riwayat kosong!\n";
         return;
     }
-    cout << "Menghapus: " << (s + top)->pasien.nama << endl;
+    cout << "[DIHAPUS] " << (s + top)->pasien.nama << endl;
     top--;
 }
 
 void tampilRiwayat(Tindakan *s) {
     if (isStackEmpty()) {
-        cout << "Kosong!\n";
+        cout << "[INFO] Riwayat kosong!\n";
         return;
     }
 
+    cout << "\n===== RIWAYAT =====\n";
     for (int i = top; i >= 0; i--) {
-        cout << (s + i)->pasien.nama
+        cout << "- " << (s + i)->pasien.nama
              << " -> " << (s + i)->rekamMedis << endl;
     }
 }
 
-// ================= PANGGIL PASIEN =================
+// ================= PANGGIL =================
 void panggilPasien(Hewan *q, Tindakan *s) {
     if (isQueueEmpty()) {
-        cout << "Tidak ada antrian!\n";
+        cout << "[INFO] Tidak ada antrian!\n";
         return;
     }
 
     Hewan pasien = *(q + front);
     front++;
 
-    if (front > rear) {
-        front = rear = -1;
-    }
+    if (front > rear) front = rear = -1;
 
-    cout << "Memanggil: " << pasien.nama << endl;
+    cout << "\n=== MEMANGGIL PASIEN ===\n";
+    cout << "Nama : " << pasien.nama << endl;
+    cout << "ID   : " << pasien.id << endl;
 
     Tindakan t;
     t.pasien = pasien;
@@ -294,25 +317,19 @@ void panggilPasien(Hewan *q, Tindakan *s) {
 
 // ================= PEEK =================
 void peekData(Hewan *q, Tindakan *s) {
-    cout << "\nQUEUE: ";
+    cout << "\n===== PEEK =====\n";
+
+    cout << "Antrian depan: ";
     if (!isQueueEmpty())
         cout << (q + front)->nama << endl;
     else
         cout << "Kosong\n";
 
-    cout << "STACK: ";
+    cout << "Riwayat terakhir: ";
     if (!isStackEmpty())
         cout << (s + top)->pasien.nama << endl;
     else
         cout << "Kosong\n";
-}
-
-// ================= MENU =================
-void menu() {
-    cout << "\n1. Tampil\n2. Tambah\n3. Cari Nama\n4. Cari ID\n";
-    cout << "5. Sort Nama\n6. Sort Harga\n";
-    cout << "7. Enqueue\n8. Panggil\n9. Antrian\n";
-    cout << "10. Riwayat\n11. Pop\n12. Peek\n13. Keluar\n";
 }
 
 // ================= MAIN =================
@@ -339,6 +356,11 @@ int main() {
             case 10: tampilRiwayat(ptrStack); break;
             case 11: popRiwayat(ptrStack); break;
             case 12: peekData(ptrQueue, ptrStack); break;
+            case 13: 
+                cout << "\nTerima kasih telah menggunakan layanan Pawcare Petshop!\n"; 
+                break;
+            default:
+                cout << "\nPilihan tidak valid! Silakan masukkan angka 1-13.\n";
         }
 
     } while (pilih != 13);
